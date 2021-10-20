@@ -1,6 +1,7 @@
 import ProductModel from "../module/ProductModel.js";
 import ErrorHandelar from "../utils/errorhandler.js";
 import { CatchAsynceError } from "../Middleware/catchasynceError.js";
+import ApiFeactures from "../utils/apifeatures.js";
 // Create Product
 const createProduct = CatchAsynceError(async (req, res, next) => {
   const prodcut = await ProductModel.create(req.body);
@@ -12,10 +13,14 @@ const createProduct = CatchAsynceError(async (req, res, next) => {
 
 // get all product
 const getAllProducts = CatchAsynceError(async (req, res) => {
-  const products = await ProductModel.find();
+  const resultPerPage = 5;
+  const prodcutCount =  await ProductModel.countDocuments()
+ const apiFeature = new  ApiFeactures(ProductModel.find(),req.query).search().filter().pagination(resultPerPage);
+  const products = await apiFeature.query;
   res.status(200).json({
     success: true,
     products,
+    prodcutCount
   });
 });
 

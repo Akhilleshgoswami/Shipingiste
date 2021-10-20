@@ -7,6 +7,6 @@ const connectionToDb = ()=>{
     useUnifiedTopology: true
   })
   .then(() => console.log("connneted to mongodb"))
-  .catch((err) => console.log(err));
+
 }
 export default connectionToDb;
